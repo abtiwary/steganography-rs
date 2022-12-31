@@ -60,12 +60,13 @@ impl <'source, 'message> Encoder<'source, 'message> {
 
                 // clear the last two bits
                 source_byte &= 0b1111_1100;
-                
+                // write the relevant bits of the source into the cleared space
                 let mut op = target_byte & (0b1100_0000 >> i*2);
                 op = op >> (8 - ((i+1)*2));
                 
                 source_byte |=  op; 
 
+                // write the updated byte
                 self.source_bytes[source_idx + i] = source_byte;
             }
 
@@ -80,7 +81,6 @@ impl <'source, 'message> Encoder<'source, 'message> {
         Ok(bytes_encoded)
     }
 }
-
 
 
 #[cfg(test)]
@@ -105,6 +105,4 @@ mod tests {
 
     }
 
-
 }
-
